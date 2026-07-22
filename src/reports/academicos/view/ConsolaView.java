@@ -1,54 +1,51 @@
 package reports.academicos.view;
 
 import reports.academicos.controller.SistemaController;
-import java.util.Scanner;
+import javax.swing.JOptionPane;
 
 public class ConsolaView {
     private SistemaController controller;
-    private Scanner scanner;
 
     public ConsolaView() {
         this.controller = new SistemaController();
-        this.scanner = new Scanner(System.in);
     }
 
     public void iniciar() {
-        System.out.println("\n" + "=".repeat(60));
-        System.out.println("    SISTEMA DE REPORTES ACADEMICOS");
-        System.out.println("=".repeat(60));
+        JOptionPane.showMessageDialog(null, 
+            "SISTEMA DE REPORTES ACADEMICOS", 
+            "Bienvenido", 
+            JOptionPane.INFORMATION_MESSAGE);
         
         while (true) {
-            System.out.println("\n--- MENU PRINCIPAL ---");
-            System.out.println("1. Iniciar sesion");
-            System.out.println("2. Salir");
-            System.out.print("Seleccione: ");
+            String[] opciones = {"Iniciar sesion", "Salir"};
+            int opcion = JOptionPane.showOptionDialog(null, 
+                "Seleccione una opcion:", 
+                "MENU PRINCIPAL", 
+                JOptionPane.DEFAULT_OPTION, 
+                JOptionPane.PLAIN_MESSAGE, 
+                null, 
+                opciones, 
+                opciones[0]);
             
-            int opcion = leerOpcion();
-            
-            switch (opcion) {
-                case 1:
-                    login();
-                    break;
-                case 2:
-                    System.out.println("Hasta luego!");
-                    controller.guardarDatos();
-                    return;
-                default:
-                    System.out.println("Opcion invalida");
+            if (opcion == 0) {
+                login();
+            } else {
+                controller.guardarDatos();
+                JOptionPane.showMessageDialog(null, "Hasta luego!", "Salida", JOptionPane.INFORMATION_MESSAGE);
+                return;
             }
         }
     }
 
     private void login() {
-        System.out.println("\n--- INICIAR SESION ---");
-        System.out.print("Usuario: ");
-        String usuario = scanner.nextLine();
-        System.out.print("Contrasena: ");
-        String password = scanner.nextLine();
+        String usuario = JOptionPane.showInputDialog("Usuario:");
+        String password = JOptionPane.showInputDialog("Contrasena:");
 
         if (controller.login(usuario, password)) {
-            System.out.println("\nBienvenido!");
-            System.out.println("Rol: " + controller.getRolActual().toUpperCase());
+            JOptionPane.showMessageDialog(null, 
+                "Bienvenido! Rol: " + controller.getRolActual().toUpperCase(), 
+                "Login Exitoso", 
+                JOptionPane.INFORMATION_MESSAGE);
             
             if (controller.getRolActual().equals("admin")) {
                 menuAdmin();
@@ -56,142 +53,282 @@ public class ConsolaView {
                 menuDocente();
             }
         } else {
-            System.out.println("Credenciales incorrectas");
+            JOptionPane.showMessageDialog(null, 
+                "Credenciales incorrectas", 
+                "Error", 
+                JOptionPane.ERROR_MESSAGE);
         }
     }
 
     private void menuAdmin() {
         while (true) {
-            System.out.println("\n--- MENU ADMINISTRADOR ---");
-            System.out.println("1. Reporte de estudiantes");
-            System.out.println("2. Reporte de notas por curso");
-            System.out.println("3. Reporte de asistencia");
-            System.out.println("4. Reporte de rendimiento");
-            System.out.println("5. Estadisticas generales");
-            System.out.println("6. Estudiantes en riesgo");
-            System.out.println("7. Cerrar sesion");
-            System.out.print("Seleccione: ");
+            String[] opciones = {
+                "Reporte de estudiantes",
+                "Reporte de notas por curso",
+                "Reporte de asistencia",
+                "Reporte de rendimiento",
+                "Estadisticas generales",
+                "Estudiantes en riesgo",
+                "Agregar estudiante",
+                "Agregar curso",
+                "Exportar reporte a TXT",
+                "Cerrar sesion"
+            };
             
-            int opcion = leerOpcion();
+            int opcion = JOptionPane.showOptionDialog(null, 
+                "Seleccione una opcion:", 
+                "MENU ADMINISTRADOR", 
+                JOptionPane.DEFAULT_OPTION, 
+                JOptionPane.PLAIN_MESSAGE, 
+                null, 
+                opciones, 
+                opciones[0]);
             
             switch (opcion) {
-                case 1:
-                    System.out.println(controller.reporteEstudiantes());
+                case 0:
+                    mostrarReporte(controller.reporteEstudiantes(), "Reporte de Estudiantes");
                     break;
-                case 2:
+                case 1:
                     reporteNotas();
                     break;
-                case 3:
+                case 2:
                     reporteAsistencia();
                     break;
-                case 4:
+                case 3:
                     reporteRendimiento();
                     break;
-                case 5:
-                    System.out.println(controller.reporteEstadisticasGenerales());
+                case 4:
+                    mostrarReporte(controller.reporteEstadisticasGenerales(), "Estadisticas Generales");
                     break;
-                case 6:
+                case 5:
                     reporteRiesgo();
                     break;
+                case 6:
+                    agregarEstudiante();
+                    break;
                 case 7:
+                    agregarCurso();
+                    break;
+                case 8:
+                    exportarReporte();
+                    break;
+                case 9:
                     controller.logout();
-                    System.out.println("Sesion cerrada");
+                    JOptionPane.showMessageDialog(null, "Sesion cerrada");
                     return;
                 default:
-                    System.out.println("Opcion invalida");
+                    return;
             }
         }
     }
 
     private void menuDocente() {
         while (true) {
-            System.out.println("\n--- MENU DOCENTE ---");
-            System.out.println("1. Ver mis estudiantes");
-            System.out.println("2. Reporte de notas de mi curso");
-            System.out.println("3. Reporte de asistencia de mi curso");
-            System.out.println("4. Reporte de rendimiento de mi curso");
-            System.out.println("5. Estudiantes en riesgo");
-            System.out.println("6. Cerrar sesion");
-            System.out.print("Seleccione: ");
+            String[] opciones = {
+                "Ver mis estudiantes",
+                "Reporte de notas de mi curso",
+                "Reporte de asistencia de mi curso",
+                "Reporte de rendimiento de mi curso",
+                "Estudiantes en riesgo",
+                "Exportar reporte a TXT",
+                "Cerrar sesion"
+            };
             
-            int opcion = leerOpcion();
+            int opcion = JOptionPane.showOptionDialog(null, 
+                "Seleccione una opcion:", 
+                "MENU DOCENTE", 
+                JOptionPane.DEFAULT_OPTION, 
+                JOptionPane.PLAIN_MESSAGE, 
+                null, 
+                opciones, 
+                opciones[0]);
             
             switch (opcion) {
+                case 0:
+                    mostrarReporte(controller.reporteEstudiantes(), "Mis Estudiantes");
+                    break;
                 case 1:
-                    System.out.println(controller.reporteEstudiantes());
+                    mostrarReporte(controller.reporteNotas(controller.getCursoDocente()), "Reporte de Notas");
                     break;
                 case 2:
-                    System.out.println(controller.reporteNotas(controller.getCursoDocente()));
+                    mostrarReporte(controller.reporteAsistencia(controller.getCursoDocente()), "Reporte de Asistencia");
                     break;
                 case 3:
-                    System.out.println(controller.reporteAsistencia(controller.getCursoDocente()));
+                    mostrarReporte(controller.reporteRendimiento(controller.getCursoDocente()), "Reporte de Rendimiento");
                     break;
                 case 4:
-                    System.out.println(controller.reporteRendimiento(controller.getCursoDocente()));
+                    mostrarReporte(controller.reporteEstudiantesEnRiesgo(controller.getCursoDocente()), "Estudiantes en Riesgo");
                     break;
                 case 5:
-                    System.out.println(controller.reporteEstudiantesEnRiesgo(controller.getCursoDocente()));
+                    exportarReporte();
                     break;
                 case 6:
                     controller.logout();
-                    System.out.println("Sesion cerrada");
+                    JOptionPane.showMessageDialog(null, "Sesion cerrada");
                     return;
                 default:
-                    System.out.println("Opcion invalida");
+                    return;
             }
         }
     }
 
+    private void mostrarReporte(String reporte, String titulo) {
+        JOptionPane.showMessageDialog(null, reporte, titulo, JOptionPane.INFORMATION_MESSAGE);
+    }
+
     private void reporteNotas() {
-        System.out.println("\nCursos disponibles:");
-        for (var curso : controller.getCursos()) {
-            System.out.println("  - " + curso.getNombre());
+        StringBuilder cursosList = new StringBuilder("Cursos disponibles:\n");
+        for (int i = 0; i < controller.getContadorCursos(); i++) {
+            cursosList.append("  - ").append(controller.getCursos()[i].getNombre()).append("\n");
         }
-        System.out.print("\nIngrese nombre del curso: ");
-        String curso = scanner.nextLine();
-        System.out.println(controller.reporteNotas(curso));
+        
+        String curso = JOptionPane.showInputDialog(cursosList.toString() + "\nIngrese nombre del curso:");
+        if (curso != null && !curso.trim().isEmpty()) {
+            mostrarReporte(controller.reporteNotas(curso), "Reporte de Notas");
+        }
     }
 
     private void reporteAsistencia() {
-        System.out.println("\nCursos disponibles:");
-        for (var curso : controller.getCursos()) {
-            System.out.println("  - " + curso.getNombre());
+        StringBuilder cursosList = new StringBuilder("Cursos disponibles:\n");
+        for (int i = 0; i < controller.getContadorCursos(); i++) {
+            cursosList.append("  - ").append(controller.getCursos()[i].getNombre()).append("\n");
         }
-        System.out.print("\nIngrese nombre del curso: ");
-        String curso = scanner.nextLine();
-        System.out.println(controller.reporteAsistencia(curso));
+        
+        String curso = JOptionPane.showInputDialog(cursosList.toString() + "\nIngrese nombre del curso:");
+        if (curso != null && !curso.trim().isEmpty()) {
+            mostrarReporte(controller.reporteAsistencia(curso), "Reporte de Asistencia");
+        }
     }
 
     private void reporteRendimiento() {
-        System.out.println("\nCursos disponibles:");
-        for (var curso : controller.getCursos()) {
-            System.out.println("  - " + curso.getNombre());
+        StringBuilder cursosList = new StringBuilder("Cursos disponibles:\n");
+        for (int i = 0; i < controller.getContadorCursos(); i++) {
+            cursosList.append("  - ").append(controller.getCursos()[i].getNombre()).append("\n");
         }
-        System.out.print("\nIngrese nombre del curso: ");
-        String curso = scanner.nextLine();
-        System.out.println(controller.reporteRendimiento(curso));
+        
+        String curso = JOptionPane.showInputDialog(cursosList.toString() + "\nIngrese nombre del curso:");
+        if (curso != null && !curso.trim().isEmpty()) {
+            mostrarReporte(controller.reporteRendimiento(curso), "Reporte de Rendimiento");
+        }
     }
 
     private void reporteRiesgo() {
-        System.out.println("\nCursos disponibles:");
-        System.out.println("  - (Dejar en blanco para ver todos)");
-        for (var curso : controller.getCursos()) {
-            System.out.println("  - " + curso.getNombre());
+        StringBuilder cursosList = new StringBuilder("Cursos disponibles:\n");
+        cursosList.append("  - (Dejar en blanco para ver todos)\n");
+        for (int i = 0; i < controller.getContadorCursos(); i++) {
+            cursosList.append("  - ").append(controller.getCursos()[i].getNombre()).append("\n");
         }
-        System.out.print("\nIngrese nombre del curso: ");
-        String curso = scanner.nextLine();
-        if (curso.trim().isEmpty()) {
-            System.out.println(controller.reporteEstudiantesEnRiesgo(null));
-        } else {
-            System.out.println(controller.reporteEstudiantesEnRiesgo(curso));
+        
+        String curso = JOptionPane.showInputDialog(cursosList.toString() + "\nIngrese nombre del curso:");
+        if (curso != null) {
+            if (curso.trim().isEmpty()) {
+                mostrarReporte(controller.reporteEstudiantesEnRiesgo(null), "Estudiantes en Riesgo");
+            } else {
+                mostrarReporte(controller.reporteEstudiantesEnRiesgo(curso), "Estudiantes en Riesgo");
+            }
         }
     }
 
-    private int leerOpcion() {
+    private void agregarEstudiante() {
+        String nombre = JOptionPane.showInputDialog("Nombre:");
+        String apellido = JOptionPane.showInputDialog("Apellido:");
+        String[] carreras = {"Ingenieria", "Medicina", "Derecho", "Administracion", "Arquitectura", "Psicologia"};
+        String carrera = (String) JOptionPane.showInputDialog(null, "Carrera:", "Seleccionar",
+                JOptionPane.QUESTION_MESSAGE, null, carreras, carreras[0]);
+        String semestreStr = JOptionPane.showInputDialog("Semestre (1-5):");
+        String email = JOptionPane.showInputDialog("Email:");
+        
         try {
-            return Integer.parseInt(scanner.nextLine());
+            int semestre = Integer.parseInt(semestreStr);
+            if (semestre >= 1 && semestre <= 5) {
+                controller.agregarEstudiante(nombre, apellido, carrera, semestre, email);
+            } else {
+                JOptionPane.showMessageDialog(null, "Semestre debe ser entre 1 y 5");
+            }
         } catch (NumberFormatException e) {
-            return -1;
+            JOptionPane.showMessageDialog(null, "Semestre invalido");
+        }
+    }
+
+    private void agregarCurso() {
+        String nombre = JOptionPane.showInputDialog("Nombre del curso:");
+        String codigo = JOptionPane.showInputDialog("Codigo:");
+        String creditosStr = JOptionPane.showInputDialog("Creditos:");
+        String docente = JOptionPane.showInputDialog("Docente:");
+        
+        try {
+            int creditos = Integer.parseInt(creditosStr);
+            controller.agregarCurso(nombre, codigo, creditos, docente);
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(null, "Creditos invalidos");
+        }
+    }
+
+    private void exportarReporte() {
+        String[] opciones = {
+            "Reporte de estudiantes",
+            "Reporte de notas por curso",
+            "Reporte de asistencia",
+            "Reporte de rendimiento",
+            "Estadisticas generales",
+            "Estudiantes en riesgo"
+        };
+        
+        int opcion = JOptionPane.showOptionDialog(null, 
+            "Seleccione el reporte a exportar:", 
+            "Exportar Reporte", 
+            JOptionPane.DEFAULT_OPTION, 
+            JOptionPane.PLAIN_MESSAGE, 
+            null, 
+            opciones, 
+            opciones[0]);
+        
+        String contenido = "";
+        String nombreArchivo = "";
+        
+        switch (opcion) {
+            case 0:
+                contenido = controller.reporteEstudiantes();
+                nombreArchivo = "reporte_estudiantes.txt";
+                break;
+            case 1:
+                String curso = JOptionPane.showInputDialog("Nombre del curso:");
+                if (curso != null && !curso.trim().isEmpty()) {
+                    contenido = controller.reporteNotas(curso);
+                    nombreArchivo = "reporte_notas_" + curso.replace(" ", "_") + ".txt";
+                }
+                break;
+            case 2:
+                String curso2 = JOptionPane.showInputDialog("Nombre del curso:");
+                if (curso2 != null && !curso2.trim().isEmpty()) {
+                    contenido = controller.reporteAsistencia(curso2);
+                    nombreArchivo = "reporte_asistencia_" + curso2.replace(" ", "_") + ".txt";
+                }
+                break;
+            case 3:
+                String curso3 = JOptionPane.showInputDialog("Nombre del curso:");
+                if (curso3 != null && !curso3.trim().isEmpty()) {
+                    contenido = controller.reporteRendimiento(curso3);
+                    nombreArchivo = "reporte_rendimiento_" + curso3.replace(" ", "_") + ".txt";
+                }
+                break;
+            case 4:
+                contenido = controller.reporteEstadisticasGenerales();
+                nombreArchivo = "reporte_estadisticas.txt";
+                break;
+            case 5:
+                String curso4 = JOptionPane.showInputDialog("Nombre del curso (dejar vacio para todos):");
+                if (curso4 != null) {
+                    contenido = controller.reporteEstudiantesEnRiesgo(curso4.trim().isEmpty() ? null : curso4);
+                    nombreArchivo = "reporte_riesgo.txt";
+                }
+                break;
+            default:
+                return;
+        }
+        
+        if (!contenido.isEmpty() && !nombreArchivo.isEmpty()) {
+            controller.exportarReporte(contenido, nombreArchivo);
         }
     }
 }
