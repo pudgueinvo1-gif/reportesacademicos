@@ -1,0 +1,6 @@
+1 | Ingenieria de Software | IS-301 | 4 | Dr. Roberto Mendez
+2 | Anatomia Humana | AN-201 | 5 | Dra. Laura Torres
+3 | Derecho Civil | DC-401 | 4 | Dr. Carlos Ruiz
+4 | Administracion de Empresas | AD-301 | 3 | Mg. Patricia Fernandez
+5 | Diseno Arquitectonico | DA-201 | 4 | Arq. Miguel Sanchez
+6 | Psicologia General | PS-101 | 3 | Dra. Elena Gomez
