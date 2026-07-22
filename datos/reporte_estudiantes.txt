@@ -1,0 +1,27 @@
+=====================================================================================
+           REPORTE DE ESTUDIANTES
+=====================================================================================
+ID  | NOMBRE COMPLETO      | CARRERA         | SEMESTRE | EMAIL
+-------------------------------------------------------------------------------------
+1    | Ana Martinez         | Ingenieria      | 1er Semestre | ana.martinez@instituto.edu
+2    | Carlos Perez         | Medicina        | 2do Semestre | carlos.perez@instituto.edu
+3    | Maria Gomez          | Derecho         | 3er Semestre | maria.gomez@instituto.edu
+4    | Juan Lopez           | Administracion  | 4to Semestre | juan.lopez@instituto.edu
+5    | Laura Sanchez        | Arquitectura    | 5to Semestre | laura.sanchez@instituto.edu
+6    | Pedro Ramirez        | Psicologia      | 1er Semestre | pedro.ramirez@instituto.edu
+7    | Sofia Rodriguez      | Ingenieria      | 2do Semestre | sofia.rodriguez@instituto.edu
+8    | Miguel Fernandez     | Medicina        | 3er Semestre | miguel.fernandez@instituto.edu
+9    | Isabel Garcia        | Derecho         | 4to Semestre | isabel.garcia@instituto.edu
+10   | Roberto Torres       | Administracion  | 5to Semestre | roberto.torres@instituto.edu
+11   | Patricia Ruiz        | Arquitectura    | 1er Semestre | patricia.ruiz@instituto.edu
+12   | Andres Diaz          | Psicologia      | 2do Semestre | andres.diaz@instituto.edu
+13   | Carmen Morales       | Ingenieria      | 3er Semestre | carmen.morales@instituto.edu
+14   | Jose Ortiz           | Medicina        | 4to Semestre | jose.ortiz@instituto.edu
+15   | Elena Cruz           | Derecho         | 5to Semestre | elena.cruz@instituto.edu
+16   | Diego Martinez       | Administracion  | 1er Semestre | diego.martinez@instituto.edu
+17   | Paula Perez          | Arquitectura    | 2do Semestre | paula.perez@instituto.edu
+18   | Ricardo Gomez        | Psicologia      | 3er Semestre | ricardo.gomez@instituto.edu
+19   | Valentina Lopez      | Ingenieria      | 4to Semestre | valentina.lopez@instituto.edu
+20   | Felipe Sanchez       | Medicina        | 5to Semestre | felipe.sanchez@instituto.edu
+-------------------------------------------------------------------------------------
+=====================================================================================

@@ -1,6 +1,7 @@
 package reports.academicos.model;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 public class Asistencia {
     private int id;
@@ -8,6 +9,8 @@ public class Asistencia {
     private int cursoId;
     private LocalDate fecha;
     private boolean presente;
+
+    private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
     public Asistencia(int id, int estudianteId, int cursoId, LocalDate fecha, boolean presente) {
         this.id = id;
@@ -32,6 +35,10 @@ public class Asistencia {
     public LocalDate getFecha() { return fecha; }
     public boolean isPresente() { return presente; }
 
+    public String getFechaFormateada() {
+        return fecha.format(FORMATTER);
+    }
+
     public String toLinea() {
         return id + " | " + estudianteId + " | " + cursoId + " | " + fecha + " | " + presente;
     }
@@ -39,6 +46,6 @@ public class Asistencia {
     @Override
     public String toString() {
         return String.format("%s | Estudiante: %d | Curso: %d | %s", 
-                fecha, estudianteId, cursoId, presente ? "✅ Presente" : "❌ Ausente");
+                getFechaFormateada(), estudianteId, cursoId, presente ? "Presente" : "Ausente");
     }
 }

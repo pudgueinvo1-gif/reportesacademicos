@@ -40,11 +40,6 @@ public class Estudiante {
     public boolean isActivo() { return activo; }
     public void setActivo(boolean activo) { this.activo = activo; }
 
-    public String toLinea() {
-        return id + " | " + nombre + " | " + apellido + " | " + carrera + " | " + 
-               semestre + " | " + email + " | " + activo;
-    }
-
     public String getSemestreTexto() {
         switch (semestre) {
             case 1: return "1er Semestre";
@@ -54,6 +49,11 @@ public class Estudiante {
             case 5: return "5to Semestre";
             default: return semestre + "° Semestre";
         }
+    }
+
+    public String toLinea() {
+        return id + " | " + nombre + " | " + apellido + " | " + carrera + " | " + 
+               semestre + " | " + email + " | " + activo;
     }
 
     @Override
