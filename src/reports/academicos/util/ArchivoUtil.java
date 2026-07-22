@@ -5,43 +5,56 @@ import java.util.*;
 
 public class ArchivoUtil {
     
-    public static void guardarArchivo(String nombreArchivo, List<String> lineas) {
+    public static void guardarArchivo(String nombreArchivo, String[] lineas) {
         try {
             File carpeta = new File("datos");
             if (!carpeta.exists()) {
                 carpeta.mkdir();
-                System.out.println("Carpeta 'datos' creada automáticamente");
+                System.out.println("Carpeta 'datos' creada automaticamente");
             }
             
             try (BufferedWriter writer = new BufferedWriter(new FileWriter("datos/" + nombreArchivo))) {
                 for (String linea : lineas) {
-                    writer.write(linea);
-                    writer.newLine();
+                    if (linea != null && !linea.trim().isEmpty()) {
+                        writer.write(linea);
+                        writer.newLine();
+                    }
                 }
             }
+        } catch (FileNotFoundException e) {
+            System.err.println("ERROR: Archivo no encontrado - " + nombreArchivo);
+            e.printStackTrace();
         } catch (IOException e) {
-            System.out.println(" Error al guardar " + nombreArchivo);
+            System.err.println("ERROR: Error al escribir el archivo - " + nombreArchivo);
+            e.printStackTrace();
+        } catch (SecurityException e) {
+            System.err.println("ERROR: Permiso denegado - " + nombreArchivo);
+            e.printStackTrace();
         }
     }
     
-    public static List<String> leerArchivo(String nombreArchivo) {
-        List<String> lineas = new ArrayList<>();
+    public static String[] leerArchivo(String nombreArchivo) {
+        List<String> lineasList = new ArrayList<>();
         File archivo = new File("datos/" + nombreArchivo);
         
         if (!archivo.exists()) {
-            return lineas;
+            return new String[0];
         }
         
         try (BufferedReader reader = new BufferedReader(new FileReader(archivo))) {
             String linea;
             while ((linea = reader.readLine()) != null) {
                 if (!linea.trim().isEmpty()) {
-                    lineas.add(linea);
+                    lineasList.add(linea);
                 }
             }
+        } catch (FileNotFoundException e) {
+            System.err.println("ERROR: Archivo no encontrado - " + nombreArchivo);
+            e.printStackTrace();
         } catch (IOException e) {
-            System.out.println(" Error al leer " + nombreArchivo);
+            System.err.println("ERROR: Error al leer el archivo - " + nombreArchivo);
+            e.printStackTrace();
         }
-        return lineas;
+        return lineasList.toArray(new String[0]);
     }
 }
